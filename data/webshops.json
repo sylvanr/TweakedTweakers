@@ -1,0 +1,249 @@
+{
+    "mastertools": {
+        "name": "mastertools",
+        "selectors": {
+            "product_container": ".twn-starter__products-item",
+            "url": "a.twn-product-tile",
+            "title": ".twn-product-tile__title a",
+            "price": ".twn-product-tile__price"
+        },
+        "res": [],
+        "query_url": "https://mastertools.nl/?q=INPUT#twn|?tn_q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "mtools": {
+        "name": "mtools",
+        "selectors": {
+            "product_container": ".product.details.product-item-details",
+            "url": ".product-item-name a.product-item-link",
+            "title": ".product-item-name a.product-item-link",
+            "price": ".special-price .price-including-tax .price"
+        },
+        "res": [],
+        "query_url": "https://www.mtools.nl/#sqr:(q[INPUT])",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "toolstation": {
+        "name": "toolstation",
+        "selectors": {
+            "product_container": ".search-product-wrapper",
+            "url": "a.product-suggestion",
+            "title": ".sp-name a .f4.f-medium",
+            "price": ".search-product-price .sp-price"
+        },
+        "res": [],
+        "query_url": "https://www.toolstation.nl/search?q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "hbm-machines": {
+        "name": "hbm-machines",
+        "selectors": {
+            "product_container": "a.overview-product",
+            "url": "a.overview-product",
+            "title": ".product-title",
+            "price": ".product-price .price"
+        },
+        "res": [],
+        "query_url": "https://www.hbm-machines.com/nl/zoeken?query=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "installand": {
+        "name": "installand",
+        "selectors": {
+            "product_container": "div.product.details.product-item-details",
+            "url": "a.product-item-link",
+            "title": "strong.product-item-name a.product-item-link",
+            "price": "span.price"
+        },
+        "res": [],
+        "query_url": "https://www.installand.nl/catalogsearch/result/index?q=INPUT&categorie=4",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "visser-assen": {
+        "name": "visser-assen",
+        "selectors": {
+            "product_container": "div.sqr-resultItem",
+            "url": "h3 a",
+            "title": "h3 a",
+            "price": "div.sqr-price.sqr-discount-price"
+        },
+        "res": [],
+        "query_url": "https://www.visser-assen.nl/#sqr:(q[INPUT])",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "deboerdrachten": {
+        "name": "deboerdrachten",
+        "selectors": {
+            "product_container": "div[data-cy='component:product-tile']",
+            "url": "h3 a",
+            "title": "h3 a",
+            "price": "span.text-base.font-bold.text-danger-600"
+        },
+        "res": [],
+        "query_url": "https://www.deboerdrachten.nl/search?q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "boer-staphorst": {
+        "name": "boer-staphorst",
+        "selectors": {
+            "product_container": "form.item.product.product-item.product_addtocart_form",
+            "url": "a.product-item-link",
+            "title": "a.product-item-link",
+            "price": "span.price-wrapper[data-price-type='finalPrice']"
+        },
+        "res": [],
+        "query_url": "https://www.boer-staphorst.nl/catalogsearch/result/?q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "vankats": {
+        "name": "vankats",
+        "selectors": {
+            "product_container": "div.Shop01innerArtTxtHolder",
+            "url": "a",
+            "title": "h4.innerArtTitel",
+            "price": "span.new-price"
+        },
+        "res": [],
+        "query_url": "https://www.vankats.nl/zoekresultaten.html?q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "bol": {
+        "name": "bol",
+        "selectors": {
+            "product_container": "div.product-item__content",
+            "url": "a.product-title.px_list_page_product_click.list_page_product_tracking_target",
+            "title": "a.product-title.px_list_page_product_click.list_page_product_tracking_target",
+            "price": "span.promo-price"
+        },
+        "res": [],
+        "query_url": "https://www.bol.com/nl/nl/s/?searchtext=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "klium": {
+        "name": "klium",
+        "selectors": {
+            "product_container": "div.js-product",
+            "url": "h2.product-title a",
+            "title": "h2.product-title a",
+            "price": "span.price"
+        },
+        "res": [],
+        "query_url": "https://www.klium.nl/nl/zoeken?orderby=position&orderway=desc&search_query=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "amazon": {
+        "name": "amazon",
+        "selectors": {
+            "product_container": "div[data-component-type='s-search-result']",
+            "url": "h2.a-size-mini a.a-link-normal",
+            "title": "h2.a-size-mini a.a-link-normal span.a-size-base-plus",
+            "price": "span.a-price-whole"
+        },
+        "res": [],
+        "query_url": "https://www.amazon.nl/s?k=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "toolsvoordelig": {
+        "name": "toolsvoordelig",
+        "selectors": {
+            "product_container": "div.dmws_perfect-product-card",
+            "url": "a.dmws_perfect-product-card-img",
+            "title": "div.dmws_perfect-product-title a",
+            "price": "div.dmws_perfect-price-cart div.dmws_perfect-price-current"
+        },
+        "res": [],
+        "query_url": "https://www.toolsvoordelig.nl/search/INPUT/?ps_keyword=INPUT&ps_tab=products",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "coolblue": {
+        "name": "coolblue",
+        "selectors": {
+            "product_container": "div.product-grid__card",
+            "url": "div.product-card__title div.h3 a",
+            "title": "div.product-card__title",
+            "price": "strong.sales-price__current.js-sales-price-current"
+        },
+        "res": [],
+        "query_url": "https://www.coolblue.nl/zoeken?query=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "ijzerhuis": {
+        "name": "ijzerhuis",
+        "selectors": {
+            "product_container": "div.item.product.product--fullwidth",
+            "url": "a.link.link--black.text--no-underline",
+            "title": "h3.heading.heading--size-1.text--uppercase a",
+            "price": "span.text--size-5.text--no-wrap"
+        },
+        "res": [],
+        "query_url": "https://ijzerhuis.nl/catarticles.awp?search=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "toolnation": {
+        "name": "toolnation",
+        "selectors": {
+            "product_container": "div.product-item-info",
+            "url": "a.product-item-link",
+            "title": "strong.product.name.product-item-name",
+            "price": "span.price.price-old.sqr-price-vat"
+        },
+        "res": [],
+        "query_url": "https://www.toolnation.nl/#sqr:(q[INPUT])",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "rotopino": {
+        "name": "rotopino",
+        "selectors": {
+            "product_container": "div.item-container",
+            "url": "a.into-detail.name",
+            "title": "a.into-detail.name",
+            "price": "span.final-price"
+        },
+        "res": [],
+        "query_url": "https://www.rotopino.nl/produkten/?q=INPUT&sort=11",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "thstools": {
+        "name": "thstools",
+        "selectors": {
+            "product_container": "div.product-item-info",
+            "url": "a.product-item-link",
+            "title": "strong.product.name.product-item-name a",
+            "price": "span.price-wrapper.price-including-tax"
+        },
+        "res": [],
+        "query_url": "https://www.thstools.nl/catalogsearch/result/?q=INPUT",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    },
+    "toolmax": {
+        "name": "toolmax",
+        "selectors": {
+            "product_container": "div.sqr-resultItem",
+            "url": "a.sqr-productlist-imgholder",
+            "title": "h3.productlist-title",
+            "price": "span.productlist-price"
+        },
+        "res": [],
+        "query_url": "https://www.toolmax.nl/?#sqr:(q[%22INPUT%22])",
+        "main_category": "Tools",
+        "subcategories": ["Makita"]
+    }
+}

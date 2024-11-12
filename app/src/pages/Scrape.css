@@ -1,0 +1,21 @@
+/* Scrape.css */
+
+.scrape-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  padding: 20px;
+  background-color: #181a1b;
+  color: #b2aca2;
+  width: 100%;
+}
+
+.scrape-paper {
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #282c34;
+  box-shadow: 3;
+  border-radius: 8px;
+  width: 80%;
+}

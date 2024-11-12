@@ -1,0 +1,19 @@
+.home-description {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.home-list {
+    list-style-type: disc;
+    padding-left: 3rem;
+    justify-content: center;
+}
+
+.home-link {
+    color: #dea5ae;
+    text-decoration: none;
+}
+
+.home-link:hover {
+    text-decoration: underline;
+}

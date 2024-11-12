@@ -1,0 +1,49 @@
+/* General AppBar and Toolbar styling */
+.app-bar {
+    background-color: #181a1b;
+    width: 100%;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Content Wrapper styling */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* Header Links styling */
+.header-links {
+    display: flex;
+    gap: 16px;
+    /* Adjusts spacing between links */
+}
+
+.header-link {
+    padding: 10px 20px;
+    color: #e8e6e3;
+    background-color: #4c1c2468;
+    text-decoration: none;
+    border-radius: 20px;
+    /* Rounded corners */
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.header-link:hover {
+    background-color: #4C1C24;
+    transform: scale(1.05);
+    /* Slightly scale up the link */
+}
+
+/* Apply active link style */
+.header-link.active {
+    background-color: #4C1C24;
+    font-weight: bold;
+}

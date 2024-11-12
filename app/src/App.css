@@ -1,0 +1,35 @@
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  width: 100%;  /* This will take up the available space */
+  box-sizing: border-box;
+}
+
+/* Body */
+.body-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  padding: 20px;
+  background-color: #181a1b;
+  width: 100%;
+}
+
+/* Paper */
+.content-paper {
+  width: 60%; /* Matches the header's content-wrapper width */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #282c34;
+  color: #b2aca2;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Default styling for H1 */
+h1 {
+  color: #b2aca2;
+  text-align: center;
+}
