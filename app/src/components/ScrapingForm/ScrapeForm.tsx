@@ -73,6 +73,19 @@ const ScrapeForm: React.FC<ScrapeFormProps> = ({ handleSubmit, handleChange, for
     handleChange({ target: { name: 'selectedWebshops', value: [] } } as any);
   };
 
+  const expectedTime = () => {
+    let _expectedTime = '';
+    const seconds = formValues.selectedItems.length * formValues.selectedWebshops.length;
+    if (seconds < 60) {
+      _expectedTime = seconds + ' seconds';
+    } else {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      _expectedTime =  minutes + ' minutes and ' + remainingSeconds + ' seconds';
+    }
+    return ' (expected time: ' + _expectedTime + ')';
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <Typography variant="h5" component="h2" gutterBottom>
@@ -119,7 +132,7 @@ const ScrapeForm: React.FC<ScrapeFormProps> = ({ handleSubmit, handleChange, for
                 disabled={loading || (formValues.selectedItems.length === 0 || formValues.selectedWebshops.length === 0)}
                 fullWidth
               >
-                {loading ? <CircularProgress size={24} /> : 'Start Scraping'}
+                {loading ? <CircularProgress size={24} /> : 'Start Scraping' + expectedTime()}
               </Button>
             </Box>
           </Grid>

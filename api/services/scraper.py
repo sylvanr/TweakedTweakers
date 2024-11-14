@@ -1,7 +1,6 @@
 import copy
 import json
 import logging
-import math
 import os
 import re
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -18,11 +17,21 @@ SCRAPE_N_RESULTS = 20
 # Create a headless driver configuration
 def _create_driver(name):
     options = Options()
+    # Connect to docker selenium hub, or localhost for local development
+    hub_url = "http://selenium:4444" if os.getenv("DOCKER", "False") == "True" else "http://localhost:4444"
+
+    # Add options specific to Docker environments
+    options.add_argument('--no-sandbox')  # Needed in some environments, e.g., Docker
+    options.add_argument('--disable-dev-shm-usage')  # Bypass /dev/shm memory limit issues
+    options.add_argument('--disable-gpu')  # Disable GPU acceleration
+    options.add_argument('--window-size=1920x1080')  # Set a default window size
+
+    # Only apply headless mode for specific site names
     if name not in ["hbm-machines", "installand", "bol", "klium", "coolblue", "ijzerhuis", "thstools", "toolmax"]:
-        options.add_argument('--headless')  # Run in headless mode
-        options.add_argument('--disable-gpu')  # Disable GPU acceleration (useful in some environments)
-        options.add_argument('--no-sandbox')  # Needed in some environments, e.g., Docker
-    return webdriver.Chrome(options=options)
+        options.add_argument('--headless')
+
+    wd = webdriver.Remote(command_executor=hub_url, options=options) if os.getenv("DOCKER", "False") == "True" else webdriver.Chrome(options=options)  # NOQA: E501
+    return wd
 
 
 def _scrape_website(url, name, selectors, res, items):
@@ -40,14 +49,13 @@ def _scrape_website(url, name, selectors, res, items):
                 logging.error(f"Error:: app/services/scraper.py/_scrape_website(): An error occurred while scraping {name}: {e}")  # NOQA: E501
     finally:
         driver.quit()
-        return name, res_f
+    return name, res_f
 
 
 def _get_input_values(name, items):
     """
     Get the input values, which are the names of all the items in data/items.json
     """
-    logging.debug("Debug:: app/services/scraper.py/_get_input_values(): Getting input values from data/items.json")
     input_values = []
     with open("data/items.json", "r") as file:
         data = json.load(file)
@@ -71,8 +79,6 @@ def _get_webshops(webshops):
     """
     Get the webshop values, which are the names of all the items in data/webshops.json
     """
-    logging.debug("Debug:: app/services/scraper.py/_get_webshops(): Getting webshop values from data/webshops.json")
-
     with open("data/webshops.json", "r") as file:
         data = json.load(file)
 
@@ -93,7 +99,7 @@ def scrape(items, webshops):
     :param test: Specify which webshop to test, set to None to run all
     :return: res
     """
-    logging.debug(f"Debug:: app/services/scraper.py/scrape(): Scraping webshops, items={items}, webshops={webshops}")
+    logging.debug(f"Debug:: app/services/scraper.py/scrape(): Scraping webshops:\n\titems={items}\n\twebshops={webshops}")  # NOQA: E501
     webshop_names, webshop_urls, webshop_selectors, base_res = _get_webshops(webshops)
     res = copy.deepcopy(base_res)
 
@@ -108,7 +114,7 @@ def scrape(items, webshops):
         tasks.append((url, name, webshop_selectors, res, items))
 
     # Use ProcessPoolExecutor to manage multiple Selenium processes
-    with ProcessPoolExecutor(max_workers=math.floor(os.cpu_count()/2+1)) as executor:
+    with ProcessPoolExecutor(max_workers=8) as executor:
         futures = []
         for task in tasks:
             futures.append(executor.submit(_scrape_website, *task))
@@ -127,7 +133,7 @@ def scrape(items, webshops):
 
 def scrape_products(driver, name, selectors, res):
     try:
-        WebDriverWait(driver, 2).until(
+        WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, selectors["product_container"]))
         )
     except Exception:
@@ -137,65 +143,73 @@ def scrape_products(driver, name, selectors, res):
     page_source = driver.page_source
     # custom for HBM
     if name == "hbm-machines":
-        products = re.findall(r'"item_display_name":"(.*?)".*?"price":(.*?),"from_price":.*?"url_to_product":"(.*?)"', page_source)  # NOQA: 501
-
-        seen_products = set()
-        for display_name, price, product_url in products:
-            price = price.strip().replace('.', ',')
-            product_url = product_url.strip().replace('\\', '')
-            display_name = display_name.strip().replace('\n', ' ')
-            product_key = (display_name, product_url)
-
-            if product_key not in seen_products:
-                seen_products.add(product_key)
-                res[name].append({
-                    "url": product_url,
-                    "title": display_name,
-                    "price": price
-                })
-        return res[name]
-
-    # Generic access
-    products = driver.find_elements(By.CSS_SELECTOR, selectors["product_container"])
-    i = 0
-    for product in products:
         try:
-            url_element = product.find_element(By.CSS_SELECTOR, selectors["url"])
-            product_url = url_element.get_attribute("href")
-            title_element = product.find_element(By.CSS_SELECTOR, selectors["title"])
-            title = title_element.text
-            price_element = product.find_element(By.CSS_SELECTOR, selectors["price"])
-            price = price_element.text
-            if name == "bol":
-                price = price.replace("\n", ",")
+            products = re.findall(r'"item_display_name":"(.*?)".*?"price":(.*?),"from_price":.*?"url_to_product":"(.*?)"', page_source)  # NOQA: 501
 
-            price = price.replace("\u20ac", "")
-            price = price.replace(",-", ",00")
-            price = price.replace("\n", " ")
-            price = price.replace(" ", "")
-            price = price.replace(",,", ",")
-            price = re.sub(r'[^\d,]', '', price)
+            seen_products = set()
+            for display_name, price, product_url in products:
+                price = price.strip().replace('.', ',')
+                product_url = product_url.strip().replace('\\', '')
+                display_name = display_name.strip().replace('\n', ' ')
+                product_key = (display_name, product_url)
 
-            title = title.replace("\n", " ")
-            if price.endswith(","):
-                price += "00"
-
-            res_obj = {
-                "url": product_url,
-                "title": title,
-                "price": price
-            }
-            if res_obj not in res[name]:
-                res[name].append(res_obj)
-
-            i += 1
-            if i > SCRAPE_N_RESULTS:
-                break
+                if product_key not in seen_products:
+                    seen_products.add(product_key)
+                    res[name].append({
+                        "url": product_url,
+                        "title": display_name,
+                        "price": price
+                    })
+            return res[name]
         except Exception as e:
-            logging.error(f"Error:: app/services/scraper.py/scrape_products(): Could not retrieve title or price for a product due to: {e}")  # NOQA: E501
+            logging.error(f"Error:: app/services/scraper.py/scrape_products(): Could not retrieve title or price for HBM, {e}")  # NOQA: E501
+            return res[name]
+
+    try:
+        # Generic access
+        products = driver.find_elements(By.CSS_SELECTOR, selectors["product_container"])
+        i = 0
+        for product in products:
+            try:
+                url_element = product.find_element(By.CSS_SELECTOR, selectors["url"])
+                product_url = url_element.get_attribute("href")
+                title_element = product.find_element(By.CSS_SELECTOR, selectors["title"])
+                title = title_element.text
+                price_element = product.find_element(By.CSS_SELECTOR, selectors["price"])
+                price = price_element.text
+                if price == "":
+                    continue
+                if name == "bol":
+                    price = price.replace("\n", ",")
+
+                price = price.replace("\u20ac", "")
+                price = price.replace(",-", ",00")
+                price = price.replace("\n", " ")
+                price = price.replace(" ", "")
+                price = price.replace(",,", ",")
+                price = re.sub(r'[^\d,]', '', price)
+
+                title = title.replace("\n", " ")
+                if price.endswith(","):
+                    price += "00"
+
+                res_obj = {
+                    "url": product_url,
+                    "title": title,
+                    "price": price
+                }
+                if res_obj not in res[name]:
+                    res[name].append(res_obj)
+
+                i += 1
+                if i > SCRAPE_N_RESULTS:
+                    break
+            except Exception as e:
+                logging.error(f"Error:: app/services/scraper.py/scrape_products(): Could not retrieve title or price.")  # NOQA: E501
+    except Exception as e:
+        logging.error(f"Error:: app/services/scraper.py/scrape_products(): Could not retrieve products for {name}: {e}")
     return res[name]
 
 
 if __name__ == "__main__":
-    # scrape(test="mastertools")
-    scrape(test=None)
+    scrape(items=["DDF484"], webshops=["Mastertools"])

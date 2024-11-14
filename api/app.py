@@ -36,7 +36,10 @@ def scrape():
     quick_test = data.get('quick_test', False)
     scrape_items = data.get('scrape_items', [])
     scrape_webshops = data.get('scrape_webshops', [])
-    result = main(scrape, sort, compare, price_track, quick_test, scrape_items, scrape_webshops)
+    try:
+        result = main(scrape, sort, compare, price_track, quick_test, scrape_items, scrape_webshops)
+    except Exception as e:
+        result = {"error": str(e)}
     return jsonify(result)
 
 
@@ -44,7 +47,10 @@ def scrape():
 def get_verify_data():
     """Trigger verify_get_data and return the resulting dataframe as JSON."""
     logging.debug("Debug:: app.py/get_verify_data(): verify/get-data requested")
-    result = verify_get_data()
+    try:
+        result = verify_get_data()
+    except Exception as e:
+        result = {"error": str(e)}
     return jsonify(result)
 
 
@@ -53,7 +59,10 @@ def update_verify_data():
     """Trigger verify_update_data with wrong_items and return the result."""
     logging.debug("Debug:: app.py/update_verify_data(): verify/update-data requested")
     data = request.get_json()
-    result = verify_update_data(data)
+    try:
+        result = verify_update_data(data)
+    except Exception as e:
+        result = {"error": str(e)}
     return jsonify(result)
 
 
@@ -61,7 +70,10 @@ def update_verify_data():
 def get_results_data():
     """Trigger get_data from services/results and return the resulting data as JSON."""
     logging.debug("Debug:: app.py/get_results_data(): results/get-data requested")
-    result = get_results()
+    try:
+        result = get_results()
+    except Exception as e:
+        result = {"error": str(e)}
     return jsonify(result)
 
 
@@ -75,7 +87,10 @@ def manage_content_route():
     operation = data.get('operation', None)
     _type = data.get('type', None)
 
-    result = manage_content(item_name, new_item, operation, _type)
+    try:
+        result = manage_content(item_name, new_item, operation, _type)
+    except Exception as e:
+        result = {"error": str(e)}
     return jsonify(result)
 
 
@@ -83,16 +98,22 @@ def manage_content_route():
 def get_items():
     """Return the items.json file as JSON."""
     logging.debug("Debug:: app.py/get_items(): get-items requested")
-    res = load_items()
-    return jsonify(res)
+    try:
+        result = load_items()
+    except Exception as e:
+        result = {"error": str(e)}
+    return jsonify(result)
 
 
 @app.route('/get-webshops', methods=['GET'])
 def get_webshops():
     """Return the webshops.json file as JSON."""
     logging.debug("Debug:: app.py/get_webshops(): get-webshops requested")
-    res = load_webshops()
-    return jsonify(res)
+    try:
+        result = load_webshops()
+    except Exception as e:
+        result = {"error": str(e)}
+    return jsonify(result)
 
 
 if __name__ == '__main__':

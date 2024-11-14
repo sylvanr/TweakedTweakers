@@ -70,16 +70,22 @@ const VerifyData = () => {
         <Typography variant="h3" component="h1" gutterBottom>
           Verify Data ✅
         </Typography>
+        <Typography variant="body1" gutterBottom>
+          Results that come back as positive for "buy now" might be false positives, thus, with a simple view of the webshop, item name, price and target price, you can check whether or not this is correct. If they are wrong, submit the verification and they will be removed from the results.
+        </Typography>
         <form onSubmit={handleVerificationSubmit}>
           <Box sx={{ mt: 3, mb: 2 }}>
-            <Typography variant="h5" gutterBottom>
-              Items to Verify
-            </Typography>
-            {loading ? (
+            { (!loading && rows.length > 0) && (
+              <Typography variant="h3" gutterBottom alignItems="center">
+                Items to Verify
+              </Typography>
+            )}
+            { loading && (
               <Box display="flex" justifyContent="center" alignItems="center" height={200}>
                 <CircularProgress />
               </Box>
-            ) : (
+            )}
+            { (!loading && rows.length > 0) && (
               <Grid container spacing={2}>
                 {rows.map((row, index) => (
                   <Grid item xs={12} key={row.index}>
@@ -132,9 +138,15 @@ const VerifyData = () => {
               </Grid>
             )}
             <Box mt={3} textAlign="center">
-              <Button type="submit" variant="contained" color="primary">
-                Submit Verification
-              </Button>
+              { !loading && rows.length > 0 ? (
+                <Button type="submit" variant="contained" color="primary">
+                  Submit Verification
+                </Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={() => window.location.href = '/results'}>
+                  Nothing to verify! View results!
+                </Button>
+              )}
             </Box>
           </Box>
         </form>

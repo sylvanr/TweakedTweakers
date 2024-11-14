@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import logging
 
 from config import confirm_logger
@@ -34,21 +35,33 @@ def main(
     scrape_webshops=None
 ):  # NOQA: E501
     logging.debug("Debug:: main.py/main: Starting main process...")
-
+    time_start = datetime.datetime.now()
     if quick_test:
         price_track = False
         scrape_items = ["DDF484ZJ"]
         scrape_webshops = ["mastertools"]
+        # scrape_webshops = ['amazon', 'boer-staphorst', 'bol', 'coolblue', 'deboerdrachten', 'hbm-machines', 'ijzerhuis', 'installand', 'klium', 'mastertools', 'mtools', 'rotopino', 'thstools', 'toolmax', 'toolnation', 'toolstation', 'toolsvoordelig', 'vankats', 'visser-assen']  # NOQA: E501
     if scrape:
+        time_start_scrape = datetime.datetime.now()
         service_scrape(scrape_items, scrape_webshops)
+        logging.info("Time spent scraping: %s", datetime.datetime.now() - time_start_scrape)
     if sort:
+        time_start_sort = datetime.datetime.now()
         scraper_sort()
+        logging.info("Time spent sorting: %s", datetime.datetime.now() - time_start_sort)
     if compare:
+        time_start_compare = datetime.datetime.now()
         service_compare()
         convert_to_csv("compared")
+        logging.info("Time spent comparing: %s", datetime.datetime.now() - time_start_compare)
     if price_track:
+        time_start_price_track = datetime.datetime.now()
         service_price_track()
+        logging.info("Time spent price tracking: %s", datetime.datetime.now() - time_start_price_track)
+        time_start_charts = datetime.datetime.now()
         make_charts()
+        logging.info("Time spent making charts: %s", datetime.datetime.now() - time_start_charts)
+    logging.info("Time spent: %s", datetime.datetime.now() - time_start)
     return "Completed"
 
 

@@ -158,13 +158,13 @@
     "toolsvoordelig": {
         "name": "toolsvoordelig",
         "selectors": {
-            "product_container": "div.dmws_perfect-product-card",
-            "url": "a.dmws_perfect-product-card-img",
-            "title": "div.dmws_perfect-product-title a",
-            "price": "div.dmws_perfect-price-cart div.dmws_perfect-price-current"
+            "product_container": "li.product-card",
+            "url": "a.fz-heading-productcard",
+            "title": "a.fz-heading-productcard",
+            "price": "span.curr-price span"
         },
         "res": [],
-        "query_url": "https://www.toolsvoordelig.nl/search/INPUT/?ps_keyword=INPUT&ps_tab=products",
+        "query_url": "https://www.toolsvoordelig.nl/search/?q=INPUT",
         "main_category": "Tools",
         "subcategories": ["Makita"]
     },

@@ -31,7 +31,7 @@ file_handler = RotatingFileHandler(
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(logging.Formatter("[%(module)s:%(lineno)d]: %(message)s"))
 
-project_path = "/api"  # TODO: Update this path for local development
+project_path = "/api" if os.getenv("DOCKER", "False") == "True" else os.getcwd()
 file_handler.addFilter(ProjectFileFilter(project_path))
 
 # Set up root logger
@@ -43,6 +43,7 @@ root_logger.addHandler(file_handler)
 logging.getLogger("werkzeug").setLevel(logging.ERROR)
 logging.getLogger("flask.app").setLevel(logging.ERROR)
 logging.getLogger("selenium").setLevel(logging.ERROR)
+logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
 
 
 # Test logging

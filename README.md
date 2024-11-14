@@ -110,7 +110,9 @@ npm start
 From the terminal, run:
 
 ```sh
-sudo docker compose up
+docker compose up
 ```
 
-From Docker Desktop, run the `docker compose up` command through the integrated terminal.
+[Quickstart guide](https://docs.docker.com/compose/gettingstarted/#step-3-build-and-run-your-app-with-compose)
+
+_From Docker Desktop, run the `docker compose up` command through the integrated terminal._
