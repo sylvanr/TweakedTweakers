@@ -10,7 +10,7 @@ fonttools==4.54.1
 h11==0.14.0
 idna==3.10
 itsdangerous==2.2.0
-Jinja2==3.1.4
+Jinja2==3.1.5
 kiwisolver==1.4.7
 MarkupSafe==3.0.2
 matplotlib==3.9.2
